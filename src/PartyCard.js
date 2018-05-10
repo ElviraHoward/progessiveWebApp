@@ -18,22 +18,22 @@ function PartyCard(props) {
                         return <Card className="Party">
                                 <CardContent>
                                     <Typography>Name</Typography><Input className="InputName" type="text" value={party.name}
-                                                                        disabled={party.readOnly} onChange={(e) => props.onNameChange(e, party)}/>
+                                                                        disabled={party.readOnly} onChange={(e) => props.onNameChange(e, party)} disableUnderline={true}/>
                                     <Typography>Description</Typography><Input type="text" value={party.description}
-                                                                               disabled={party.readOnly} onChange={(e) => props.onDescriptionChange(e, party)}/>
+                                                                               disabled={party.readOnly} onChange={(e) => props.onDescriptionChange(e, party)} disableUnderline={true}/>
                                     <Typography>Entry</Typography><Checkbox checked={party.entry} disabled={party.readOnly}
                                                                             onChange={() => props.handleCheck}/>
                                     <Typography>Date and time</Typography><TextField id="datetime-local" type="datetime-local"
-                                                                                     value={party.date} disabled={party.readOnly}/>
+                                                                                     value={party.date} disabled={party.readOnly} onChange={(e) => props.onDateChange(e, party)}/>
 {/*                                    <Typography>Date and time</Typography><Date className="input-date" value={party.date}
                                                                                 disabled={party.readOnly} placeholder="date"/>*/}
                                     <Typography>Cost</Typography><Input type="number" value={party.cost}
-                                                                        disabled={party.readOnly} onChange={(e) => props.onCostChange(e, party)}/>
+                                                                        disabled={party.readOnly} onChange={(e) => props.onCostChange(e, party)} disableUnderline={true}/>
                                     <Typography>Address</Typography><Input type="text" value={party.address}
-                                                                           disabled={party.readOnly} onChange={(e) => props.onAddressChange(e, party)}/>
+                                                                           disabled={party.readOnly} onChange={(e) => props.onAddressChange(e, party)} disableUnderline={true}/>
                                     <Typography>Category</Typography><Select className="input-select"
                                                                              value={party.category}
-                                                                             disabled={party.readOnly}>
+                                                                             disabled={party.readOnly} onChange={(e) => props.onCategoryChange(e, party)}>
                                     <option value="Concert" selected={party.category === 'Concert'}>Concert</option>
                                     <option value="InHouse" selected={party.category === 'InHouse'}>InHouse</option>
                                     <option value="Club" selected={party.category === 'Club'}>Club</option>
