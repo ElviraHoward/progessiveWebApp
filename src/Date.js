@@ -29,6 +29,8 @@ class Date extends Component {
             value={this.state.value}
             selected={this.state.startDate}
             disabled={this.state.disabled}
+            showTimeSelect
+            timeFormat="HH:mm"
             onChange={(newValue) => this.onChange(newValue, this.state.id)}/>;
     }
 }

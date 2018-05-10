@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Date from "./Date";
 import _ from "underscore";
+import {
+    AppBar,
+    Toolbar,
+    Typography
+} from 'material-ui';
+import {FAB} from 'react-material-design';
+import PartyCard from "./PartyCard";
 
 class App extends Component {
 
@@ -14,7 +19,7 @@ class App extends Component {
                 name: 'Party1',
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
-                date: '04/25/2018',
+                date: '2018-04-25T14:30',
                 cost: '600',
                 address: 'Tower Hill, EC3',
                 category: 'Concert',
@@ -26,7 +31,7 @@ class App extends Component {
                 name: 'Party2',
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
-                date: '04/26/2018',
+                date: '2018-04-26T16:00',
                 cost: '600',
                 address: 'Tower Hill, EC3',
                 category: 'InHouse',
@@ -38,7 +43,7 @@ class App extends Component {
                 name: 'Party3',
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
-                date: '04/27/2018',
+                date: '2018-04-27T23:00',
                 cost: '600',
                 address: 'Tower Hill, EC3',
                 category: 'Club',
@@ -72,11 +77,31 @@ class App extends Component {
         this.setState({checked: !this.state.checked});
     }
 
-    onEditHandler() {
-
+    onEditHandler(party) {
+        let parties = this.state.parties;
+        parties = _.map(parties, function (t) {
+            if (t.id === party.id) {
+                t.readOnly = false;
+                t.disabled = false;
+            }
+            return t;
+        });
+        this.setState({parties: parties})
     }
 
-    onSaveHandler() {
+    onSaveHandler(party) {
+        let parties = this.state.parties;
+        parties = _.map(parties, function (t) {
+            if (t.id === party.id) {
+                t.readOnly = true;
+                t.disabled = true;
+            }
+            return t;
+        });
+        this.setState({parties: parties})
+    }
+
+    onAddHandler() {
 
     }
 
@@ -88,44 +113,68 @@ class App extends Component {
         this.setState({parties: parties})
     }
 
+    onNameChange(e, party) {
+        let parties = this.state.parties;
+        parties = _.map(parties, function (t) {
+            if (t.id === party.id) {
+                t.name = e.target.value;
+            }
+            return t;
+        });
+        this.setState({parties: parties})
+    }
+
+    onDescriptionChange(e, party) {
+        let parties = this.state.parties;
+        parties = _.map(parties, function (t) {
+            if (t.id === party.id) {
+                t.description = e.target.value;
+            }
+            return t;
+        });
+        this.setState({parties: parties})
+    }
+
+    onCostChange(e, party) {
+        let parties = this.state.parties;
+        parties = _.map(parties, function (t) {
+            if (t.id === party.id) {
+                t.cost = e.target.value;
+            }
+            return t;
+        });
+        this.setState({parties: parties})
+    }
+
+    onAddressChange(e, party) {
+        let parties = this.state.parties;
+        parties = _.map(parties, function (t) {
+            if (t.id === party.id) {
+                t.address = e.target.value;
+            }
+            return t;
+        });
+        this.setState({parties: parties})
+    }
+
     render() {
         return (
             <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h1 className="App-title">Welcome to React</h1>
-                </header>
-                {_.map(this.state.parties,
-                    function (party) {
-                        return <div className="Party">
-                            <div><p>Name</p><input type="text" value={party.name} readOnly={party.readonly}/></div>
-                            <div><p>Description</p><input type="text" value={party.description}
-                                                          readOnly={party.readonly}/></div>
-                            <div><p>Entry</p><input type="checkbox" defaultChecked={party.checked}
-                                                    readOnly={party.readonly} onChange={() => party.handleCheck}/></div>
-                            <div><p>Date</p><Date className="input-date" value={party.date} disabled={party.readOnly}
-                                                  placeholder="date"/></div>
-                            <div><p>Cost</p><input type="text" value={party.cost} readOnly={party.readonly}/></div>
-                            <div><p>Address</p><input type="text" value={party.address} readOnly={party.readonly}/>
-                            </div>
-                            <div><p>Category</p><select className="input-select" value={party.category}
-                                                        disabled={party.readonly}>
-                                <option value="Concert" selected={party.category === 'Concert'}>Concert</option>
-                                <option value="InHouse" selected={party.category === 'InHouse'}>InHouse</option>
-                                <option value="Club" selected={party.category === 'Club'}>Club</option>
-                            </select></div>
-                            <div>
-                                {/*{party.readOnly ? <button className="edit-btn"
-                                                          onClick={() => party.onEditHandler(props.task)}>Edit</button> :
-                                    <button className="save-btn"
-                                            onClick={() => party.onSaveHandler(props.task)}>Save</button>}
-                                <button className="delete-btn"
-                                        onClick={() => party.onDeleteHandler(props.task)}>Delete
-                                </button>            */ }
-                            </div>
-                        </div>
-                    })
-                }
+                <AppBar position="static" color="primary">
+                    <Toolbar>
+                        <Typography variant="title" color="inherit">
+                            Personal parties
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <PartyCard parties={this.state.parties} onEditHandler={this.onEditHandler.bind(this)}
+                           onSaveHandler={this.onSaveHandler.bind(this)} onDeleteHandler={this.onDeleteHandler.bind(this)}
+                           onDescriptionChange={this.onDescriptionChange.bind(this)} onNameChange={this.onNameChange.bind(this)}
+                handleCheck={this.handleCheck.bind(this)} onCostChange={this.onCostChange.bind(this)} onAddressChange={this.onAddressChange.bind(this)}/>
+                <FAB onClick={this.onAddHandler}
+                     location="floating-bottom-right"
+                     icon="+"
+                />
             </div>
         );
     }
