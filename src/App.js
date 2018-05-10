@@ -83,10 +83,6 @@ class App extends Component {
         }
     }
 
-    handleCheck() {
-        this.setState({checked: !this.state.checked});
-    }
-
     toggleDialog() {
         this.setState({isOpen: !this.state.isOpen});
     }
@@ -151,6 +147,17 @@ class App extends Component {
         this.setState({parties: parties})
     }
 
+    onEntryChange(e, party) {
+        let parties = this.state.parties;
+        parties = _.map(parties, function (t) {
+            if (t.id === party.id) {
+                t.entry = e.target.value;
+            }
+            return t;
+        });
+        this.setState({parties: parties})
+    }
+
     onCostChange(e, party) {
         let parties = this.state.parties;
         parties = _.map(parties, function (t) {
@@ -195,6 +202,65 @@ class App extends Component {
         this.setState({parties: parties})
     }
 
+    onNameAdd(e) {
+        let input = this.state.inputs;
+        input.name = e.target.value;
+        this.setState({inputs: input})
+    }
+    onDescriptionAdd(e) {
+        let input = this.state.inputs;
+        input.description = e.target.value;
+        this.setState({inputs: input})
+    }
+    onDateAdd(e) {
+        let input = this.state.inputs;
+        input.date = e.target.value;
+        this.setState({inputs: input})
+    }
+    onEntryAdd(e) {
+        let input = this.state.inputs;
+        input.entry = e.target.value;
+        this.setState({inputs: input})
+    }
+    onCostAdd(e) {
+        let input = this.state.inputs;
+        input.cost = e.target.value;
+        this.setState({inputs: input})
+    }
+    onAddressAdd(e) {
+        let input = this.state.inputs;
+        input.address = e.target.value;
+        this.setState({inputs: input})
+    }
+
+    onCategoryAdd(e) {
+        let input = this.state.inputs;
+        input.category = e.target.value;
+        this.setState({inputs: input})
+    }
+
+    onSaveInputHandler() {
+        let input = this.state.inputs;
+        let parties = this.state.parties;
+        input.readOnly = true;
+        input.id = parties[parties.length - 1].id + 1;
+        parties.push(input);
+        this.setState({
+            inputs: {
+                id: ' ',
+                name: ' ',
+                description: ' ',
+                entry: true,
+                date: ' ',
+                cost: ' ',
+                address: ' ',
+                category: ' ',
+                readOnly: false,
+                disabled: false
+            }, parties: parties
+        })
+    }
+
     render() {
         return (
             <div className="App">
@@ -205,11 +271,13 @@ class App extends Component {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <PartyCard parties={this.state.parties} onEditHandler={this.onEditHandler.bind(this)}
-                           onSaveHandler={this.onSaveHandler.bind(this)} onDeleteHandler={this.onDeleteHandler.bind(this)}
-                           onDescriptionChange={this.onDescriptionChange.bind(this)} onNameChange={this.onNameChange.bind(this)}
-                handleCheck={this.handleCheck.bind(this)} onCostChange={this.onCostChange.bind(this)} onAddressChange={this.onAddressChange.bind(this)}
-                           onDateChange={this.onDateChange.bind(this)} onCategoryChange={this.onCategoryChange.bind(this)}/>
+                <PartyCard parties={this.state.parties} onEditHandler={this.onEditHandler.bind(this)} onSaveHandler={this.onSaveHandler.bind(this)} onDeleteHandler={this.onDeleteHandler.bind(this)}
+                           onDescriptionChange={this.onDescriptionChange.bind(this)} onNameChange={this.onNameChange.bind(this)} onEntryChange={this.onEntryChange.bind(this)}
+                           onCostChange={this.onCostChange.bind(this)} onAddressChange={this.onAddressChange.bind(this)} onDateChange={this.onDateChange.bind(this)}
+                           onCategoryChange={this.onCategoryChange.bind(this)} onDescriptionAdd={this.onDescriptionAdd.bind(this)} onNameAdd={this.onNameAdd.bind(this)}
+                           onDateAdd={this.onDateAdd.bind(this)} onCostAdd={this.onCostAdd.bind(this)} onAddressAdd={this.onAddressAdd.bind(this)} onCategoryAdd={this.onCategoryAdd.bind(this)}
+                           onEntryAdd={this.onEntryAdd.bind(this)}/>
+
                 <Button variant="fab" color="primary" aria-label="add"  onClick={() => this.toggleDialog()}>
                     <AddIcon/>
                 </Button>
@@ -225,42 +293,31 @@ class App extends Component {
                             <Typography variant="title" color="inherit">
                                 Add new party
                             </Typography>
-                            <Button color="inherit" onClick={() => this.toggleDialog()}>
+                            <Button color="inherit" onClick={() => this.onSaveInputHandler()}>
                                 save
                             </Button>
                         </Toolbar>
                         <Card>
                             <CardContent>
                                 <Typography>Name</Typography><Input className="InputName" type="text" value={this.state.inputs.name}
-                                                                    disabled={this.state.inputs.disabled} onChange={(e) => this.onNameChange(e)} disableUnderline={true}/>
+                                                                    disabled={this.state.inputs.disabled} onChange={(e) => this.onNameAdd(e)}/>
                                 <Typography>Description</Typography><Input type="text" value={this.state.inputs.description}
-                                                                           disabled={this.state.inputs.disabled} onChange={(e) => this.onDescriptionChange(e)} disableUnderline={true}/>
+                                                                           disabled={this.state.inputs.disabled} onChange={(e) => this.onDescriptionAdd(e)}/>
                                 <Typography>Entry</Typography><Checkbox checked={this.state.inputs.entry} disabled={this.state.inputs.disabled}
-                                                                        onChange={() => this.handleCheck}/>
+                                                                        onChange={(e) => this.onEntryAdd(e)}/>
                                 <Typography>Date and time</Typography><TextField id="datetime-local" type="datetime-local"
-                                                                                 value={this.state.inputs.date} disabled={this.state.inputs.disabled} onChange={(e) => this.onDateChange(e)}/>
-                                {/*                                    <Typography>Date and time</Typography><Date className="input-date" value={party.date}
-                                                                                disabled={party.readOnly} placeholder="date"/>*/}
+                                                                                 value={this.state.inputs.date} disabled={this.state.inputs.disabled} onChange={(e) => this.onDateAdd(e)}/>
                                 <Typography>Cost</Typography><Input type="number" value={this.state.inputs.cost}
-                                                                    disabled={this.state.inputs.disabled} onChange={(e) => this.onCostChange(e)} disableUnderline={true}/>
+                                                                    disabled={this.state.inputs.disabled} onChange={(e) => this.onCostAdd(e)}/>
                                 <Typography>Address</Typography><Input type="text" value={this.state.inputs.address}
-                                                                       disabled={this.state.inputs.disabled} onChange={(e) => this.onAddressChange(e)} disableUnderline={true}/>
+                                                                       disabled={this.state.inputs.disabled} onChange={(e) => this.onAddressAdd(e)}/>
                                 <Typography>Category</Typography><Select className="input-select"
                                                                          value={this.state.inputs.category}
-                                                                         disabled={this.state.inputs.disabled} onChange={(e) => this.onCategoryChange(e)}>
+                                                                         disabled={this.state.inputs.disabled} onChange={(e) => this.onCategoryAdd(e)}>
                                 <option value="Concert">Concert</option>
                                 <option value="InHouse">InHouse</option>
                                 <option value="Club">Club</option>
                             </Select>
-                            </CardContent>
-                            <CardContent>
-{/*                                <div>
-                                    {party.readOnly ? <Button className="edit-btn"  onClick={() => props.onEditHandler(party)}>Edit</Button> :
-                                        <Button className="save-btn" onClick={() => props.onSaveHandler(party)}>Save</Button>}
-                                    <Button className="delete-btn"
-                                            onClick={() => props.onDeleteHandler(party)}>Delete
-                                    </Button>
-                                </div>*/}
                             </CardContent>
                         </Card>
                     </AppBar>

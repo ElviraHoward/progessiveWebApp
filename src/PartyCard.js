@@ -22,11 +22,9 @@ function PartyCard(props) {
                                     <Typography>Description</Typography><Input type="text" value={party.description}
                                                                                disabled={party.readOnly} onChange={(e) => props.onDescriptionChange(e, party)} disableUnderline={true}/>
                                     <Typography>Entry</Typography><Checkbox checked={party.entry} disabled={party.readOnly}
-                                                                            onChange={() => props.handleCheck}/>
+                                                                            onChange={(e) => props.onEntryChange(e, party)}/>
                                     <Typography>Date and time</Typography><TextField id="datetime-local" type="datetime-local"
                                                                                      value={party.date} disabled={party.readOnly} onChange={(e) => props.onDateChange(e, party)}/>
-{/*                                    <Typography>Date and time</Typography><Date className="input-date" value={party.date}
-                                                                                disabled={party.readOnly} placeholder="date"/>*/}
                                     <Typography>Cost</Typography><Input type="number" value={party.cost}
                                                                         disabled={party.readOnly} onChange={(e) => props.onCostChange(e, party)} disableUnderline={true}/>
                                     <Typography>Address</Typography><Input type="text" value={party.address}
