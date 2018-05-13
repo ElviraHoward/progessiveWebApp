@@ -13,16 +13,36 @@ import {
     Input,
     Select,
     TextField,
-    Checkbox
+    Checkbox, withStyles, MenuItem
 } from 'material-ui';
 import CloseIcon from '@material-ui/icons/Close';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@material-ui/icons/Add'
 import PartyCard from "./PartyCard";
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+    }
+});
 
 class App extends Component {
 
     constructor(props) {
         super(props);
+        let categories = [
+            {
+                id: 1,
+                name: 'Concert'
+            },
+            {
+                id:2,
+                name: 'InHouse'
+            },
+            {
+                id:3,
+                name: 'Club'
+            }
+        ];
         let parties = [
             {
                 id: 1,
@@ -32,7 +52,7 @@ class App extends Component {
                 date: '2018-04-25T14:30',
                 cost: '600',
                 address: 'Tower Hill, EC3',
-                category: 'Concert',
+                category: categories.id=1,
                 readOnly: true,
                 disabled: true
             },
@@ -44,7 +64,7 @@ class App extends Component {
                 date: '2018-04-26T16:00',
                 cost: '600',
                 address: 'Tower Hill, EC3',
-                category: 'InHouse',
+                category: categories.id=2,
                 readOnly: true,
                 disabled: true
             },
@@ -56,12 +76,11 @@ class App extends Component {
                 date: '2018-04-27T23:00',
                 cost: '600',
                 address: 'Tower Hill, EC3',
-                category: 'Club',
+                category: categories.id=3,
                 readOnly: true,
                 disabled: true
             }
         ];
-
         let inputs =
             {
                 id: ' ',
@@ -78,8 +97,10 @@ class App extends Component {
         this.state = {
             parties: parties,
             inputs: inputs,
+            categories: categories,
             isOpen: false,
-            checked: true
+            checked: true,
+            horizontal: 'center'
         }
     }
 
@@ -261,16 +282,14 @@ class App extends Component {
         })
     }
 
+    onButtonClick(){
+        this.onSaveInputHandler();
+        this.toggleDialog();
+    }
+
     render() {
         return (
-            <div className="App">
-                <AppBar position="static" color="primary">
-                    <Toolbar>
-                        <Typography variant="title" color="inherit">
-                            Personal parties
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+            <div className={styles.root}>
                 <PartyCard parties={this.state.parties} onEditHandler={this.onEditHandler.bind(this)} onSaveHandler={this.onSaveHandler.bind(this)} onDeleteHandler={this.onDeleteHandler.bind(this)}
                            onDescriptionChange={this.onDescriptionChange.bind(this)} onNameChange={this.onNameChange.bind(this)} onEntryChange={this.onEntryChange.bind(this)}
                            onCostChange={this.onCostChange.bind(this)} onAddressChange={this.onAddressChange.bind(this)} onDateChange={this.onDateChange.bind(this)}
@@ -278,7 +297,7 @@ class App extends Component {
                            onDateAdd={this.onDateAdd.bind(this)} onCostAdd={this.onCostAdd.bind(this)} onAddressAdd={this.onAddressAdd.bind(this)} onCategoryAdd={this.onCategoryAdd.bind(this)}
                            onEntryAdd={this.onEntryAdd.bind(this)}/>
 
-                <Button variant="fab" color="primary" aria-label="add"  onClick={() => this.toggleDialog()}>
+                <Button variant="fab" color="primary" aria-label="add"  onClick={() => this.toggleDialog()} className="button">
                     <AddIcon/>
                 </Button>
                 <Dialog
@@ -293,7 +312,7 @@ class App extends Component {
                             <Typography variant="title" color="inherit">
                                 Add new party
                             </Typography>
-                            <Button color="inherit" onClick={() => this.onSaveInputHandler()}>
+                            <Button color="inherit" onClick={() => this.onButtonClick()}>
                                 save
                             </Button>
                         </Toolbar>
@@ -314,9 +333,9 @@ class App extends Component {
                                 <Typography>Category</Typography><Select className="input-select"
                                                                          value={this.state.inputs.category}
                                                                          disabled={this.state.inputs.disabled} onChange={(e) => this.onCategoryAdd(e)}>
-                                <option value="Concert">Concert</option>
-                                <option value="InHouse">InHouse</option>
-                                <option value="Club">Club</option>
+                                <MenuItem value={this.state.categories}>Concert</MenuItem>
+                                <MenuItem value={this.state.categories}>InHouse</MenuItem>
+                                <MenuItem value={this.state.categories}>Club</MenuItem>
                             </Select>
                             </CardContent>
                         </Card>
@@ -327,4 +346,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withStyles(styles, { withTheme: true })(App);

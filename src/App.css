@@ -22,8 +22,10 @@
   font-size: large;
 }
 
-.Party {
-background: aqua;
+.button {
+  position: absolute;
+  margin: auto;
+  float: right;
 }
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
