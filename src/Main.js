@@ -9,11 +9,34 @@ import {AppBar, Toolbar, Tabs, Button} from "material-ui";
 class Main extends Component{
     state = {
         value: 0,
+        categories : [
+            {
+                id: 1,
+                name: 'Concert',
+                readOnly: true,
+                disabled: true
+            },
+            {
+                id: 2,
+                name: 'InHouse',
+                readOnly: true,
+                disabled: true
+            },
+            {
+                id: 3,
+                name: 'Club',
+                readOnly: true,
+                disabled: true
+            },
+            {
+                id: 4,
+                name: 'Bla-bla',
+                readOnly: true,
+                disabled: true
+            }
+        ]
     };
 
-    handleChange = (event, value) => {
-        this.setState({ value });
-    };
     render() {
         return(
     <HashRouter>
@@ -33,8 +56,12 @@ class Main extends Component{
                     </Tabs>
                     </Toolbar>
                 </AppBar>
-                <Route exact path='/' component={App}/>
-                <Route path='/category' component={Category}/>
+                <Route exact path='/' render={(props) => (
+                    <App {...props} categories={this.state.categories}/>
+                )}/>
+                <Route path='/category' render={(props) => (
+                    <Category {...props} categories={this.state.categories}/>
+                )}/>
             </div>
         </Switch>
     </HashRouter>

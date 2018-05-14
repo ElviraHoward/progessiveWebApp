@@ -1,37 +1,26 @@
-import React, {Component}  from 'react';
+import React, {Component} from 'react';
 import _ from 'underscore';
 import {
-    Button,
-    Input,
-    List
+    AppBar,
+    Button, Card, CardContent, Dialog, IconButton, Toolbar, Typography, Input
 } from 'material-ui';
-import AddIcon from '@material-ui/icons/Add'
+import CategoryCard from "./CategoryCard";
+
 class Category extends Component {
 
     constructor(props) {
         super(props);
-        let categories = [
+
+        let inputs =
             {
-                id: 1,
-                name: 'Concert',
-                readOnly: true,
-                disabled: true
-            },
-            {
-                id:2,
-                name: 'InHouse',
-                readOnly: true,
-                disabled: true
-            },
-            {
-                id:3,
-                name: 'Club',
-                readOnly: true,
-                disabled: true
-            }
-        ];
+                id: ' ',
+                name: ' ',
+                readOnly: false,
+                disabled: false
+            };
         this.state = {
-            categories: categories,
+            categories: props.categories,
+            inputs: inputs,
             isOpen: false,
         }
     }
@@ -49,7 +38,7 @@ class Category extends Component {
             }
             return t;
         });
-        this.setState({categories : categories })
+        this.setState({categories: categories})
     }
 
     onSaveCategoryHandler(category) {
@@ -88,23 +77,69 @@ class Category extends Component {
         });
         this.setState({categories: categories})
     }
+
+    onNameCategoryAdd(e) {
+        let input = this.state.inputs;
+        input.name = e.target.value;
+        this.setState({inputs: input})
+    }
+
+    onSaveInputCategoryHandler() {
+        let input = this.state.inputs;
+        let categories = this.state.categories;
+        input.disabled = true;
+        input.readOnly = true;
+        input.id = categories[categories.length - 1].id + 1;
+        categories.push(input);
+        this.setState({
+            inputs: {
+                id: ' ',
+                name: ' ',
+                readOnly: false,
+                disabled: false
+            },categories: categories
+        })
+    }
+
+    onButtonClick(){
+        this.onSaveInputCategoryHandler();
+        this.toggleDialog();
+    }
+
     render() {
         return (<div>
-                {_.map(this.state.categories,
-                    function (category) {
-                        return <List className="input-select">
-                            <Input className="input" type="text" value={category.name} disabled={category.readOnly} disableUnderline={true} onChange={category.onNameCategoryChange}/>
-                            <div>
-                                {category.readOnly ? <Button className="edit-category-btn"  onClick={category.onEditCategoryHandler}>Edit</Button> :
-                                    <Button className="save-category-btn" onClick={() => category.onSaveCategoryHandler()}>Save</Button>}
-                                <Button className="delete-category-btn" onClick={() => category.onDeleteCategoryHandler(category)}>Delete
-                                </Button>
-                            </div>
-                        </List>
-                    })
-                }
-                <Button variant="fab" color="primary" aria-label="add"  onClick={() => this.toggleDialog()} className="button"> <AddIcon/>
+               <CategoryCard categories={this.state.categories}
+                                     onEditCategoryHandler={this.onEditCategoryHandler.bind(this)}
+                                     onSaveCategoryHandler={this.onSaveCategoryHandler.bind(this)}
+                                     onDeleteCategoryHandler={this.onDeleteCategoryHandler.bind(this)}
+                                     onNameCategoryChange={this.onNameCategoryChange.bind(this)} />
+                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}
+                        className="button"> +
                 </Button>
+                <Dialog
+                    fullScreen={true}
+                    open={this.state.isOpen}
+                    onClose={() => this.toggleDialog()}>
+                    <AppBar>
+                        <Toolbar>
+                            <IconButton color="inherit" onClick={() => this.toggleDialog()} aria-label="Close">
+                                x
+                            </IconButton>
+                            <Typography variant="title" color="inherit">
+                                Add new category
+                            </Typography>
+                            <Button color="inherit" onClick={() => this.onButtonClick()}>
+                                Save
+                            </Button>
+                        </Toolbar>
+                        <Card>
+                            <CardContent>
+                                <Typography>Name</Typography><Input className="InputName" type="text" value={this.state.inputs.name}
+                                                                    disabled={this.state.inputs.disabled} onChange={(e) => this.onNameCategoryAdd(e)}/>
+                            </CardContent>
+                        </Card>
+                    </AppBar>
+                </Dialog>
             </div>
         );
     }
