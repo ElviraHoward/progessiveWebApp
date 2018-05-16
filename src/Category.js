@@ -5,6 +5,7 @@ import {
     Button, Card, CardContent, Dialog, IconButton, Toolbar, Typography, Input
 } from 'material-ui';
 import CategoryCard from "./CategoryCard";
+import './Category.css';
 
 class Category extends Component {
 
@@ -113,9 +114,10 @@ class Category extends Component {
                                      onSaveCategoryHandler={this.onSaveCategoryHandler.bind(this)}
                                      onDeleteCategoryHandler={this.onDeleteCategoryHandler.bind(this)}
                                      onNameCategoryChange={this.onNameCategoryChange.bind(this)} />
-                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}
-                        className="button"> +
+                <div className="fab-add-button">
+                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}> +
                 </Button>
+                </div>
                 <Dialog
                     fullScreen={true}
                     open={this.state.isOpen}

@@ -1,3 +1,26 @@
-.input {
-    color: black;
+@media screen and (min-width: 1000px) {
+
+    .category-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        margin-left: 35%;
+        background-color: #e4e8f5;
+    }
+}
+@media (max-width: 800px) {
+    .category-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 320px) {
+    .category-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

@@ -22,11 +22,66 @@
   font-size: large;
 }
 
-.button {
-  position: absolute;
-  margin: auto;
+.fab-add-button {
   float: right;
+  margin: 15px;
+  z-index: 2;
+  position: fixed;
+  bottom: 10px;
+  right: 0px;
 }
+
+
+@media screen and (min-width: 1000px) {
+  .title {
+    padding-right: 15px;
+  }
+
+  .parties {
+    display: flex;
+    align-items: center;
+  }
+  .parties-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .parties-card {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+
+@media (max-width: 800px) {
+  .title {
+    padding-right: 15px;
+  }
+
+  .parties {
+    display: flex;
+    align-items: center;
+  }
+  .parties-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .parties-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 320px) {
+  .parties-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .parties-card {
+    width: 100%;
+  }
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

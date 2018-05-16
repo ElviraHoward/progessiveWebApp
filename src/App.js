@@ -13,15 +13,9 @@ import {
     Input,
     Select,
     TextField,
-    Checkbox, withStyles, MenuItem
+    Checkbox, MenuItem
 } from 'material-ui';
 import PartyCard from "./PartyCard";
-
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-    }
-});
 
 class App extends Component {
 
@@ -30,7 +24,7 @@ class App extends Component {
         let parties = [
             {
                 id: 1,
-                name: 'Party1',
+                name: 'PARTY 1',
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
                 date: '2018-04-25T14:30',
@@ -42,7 +36,7 @@ class App extends Component {
             },
             {
                 id: 2,
-                name: 'Party2',
+                name: 'PARTY 2',
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
                 date: '2018-04-26T16:00',
@@ -54,7 +48,7 @@ class App extends Component {
             },
             {
                 id: 3,
-                name: 'Party3',
+                name: 'PARTY 3',
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
                 date: '2018-04-27T23:00',
@@ -74,7 +68,7 @@ class App extends Component {
                 date: ' ',
                 cost: ' ',
                 address: ' ',
-                category: null,
+                category: ' ',
                 readOnly: false,
                 disabled: false
             };
@@ -84,7 +78,7 @@ class App extends Component {
             isOpen: false,
             checked: true,
             categories: props.categories,
-            category: 0
+            category: 1
         }
     }
 
@@ -327,11 +321,11 @@ class App extends Component {
 
     render() {
         return (
-            <div className={styles.root}>
+            <div>
                 {
                     _.map(this.state.parties,
                         function (party) {
-                            return <PartyCard party={party} onEditHandler={this.onEditHandler.bind(this)}
+                            return  <PartyCard party={party} onEditHandler={this.onEditHandler.bind(this)}
                                               onSaveHandler={this.onSaveHandler.bind(this)}
                                               onDeleteHandler={this.onDeleteHandler.bind(this)}
                                               onDescriptionChange={this.onDescriptionChange.bind(this)}
@@ -349,13 +343,13 @@ class App extends Component {
                                               onCategoryAdd={this.onCategoryAdd.bind(this)}
                                               onEntryAdd={this.onEntryAdd.bind(this)}
                                               categories={this.state.categories}/>
-                        }.bind(this))
+                                }.bind(this))
                 }
-
-                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}
-                        className="button">
+                <div className="fab-add-button">
+                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}>
                     +
                 </Button>
+                </div>
                 <Dialog
                     fullScreen={true}
                     open={this.state.isOpen}
@@ -374,29 +368,29 @@ class App extends Component {
                         </Toolbar>
                         <Card>
                             <CardContent>
-                                <Typography>Name</Typography><Input className="InputName" type="text"
+                                <Typography>Name: </Typography><Input className="InputName" type="text"
                                                                     value={this.state.inputs.name}
                                                                     disabled={this.state.inputs.disabled}
                                                                     onChange={(e) => this.onNameAdd(e)}/>
-                                <Typography>Description</Typography><Input type="text"
+                                <Typography>Description: </Typography><Input type="text"
                                                                            value={this.state.inputs.description}
                                                                            disabled={this.state.inputs.disabled}
                                                                            onChange={(e) => this.onDescriptionAdd(e)}/>
-                                <Typography>Entry</Typography><Checkbox checked={this.state.inputs.entry}
+                                <Typography>Free entry: </Typography><Checkbox checked={this.state.inputs.entry}
                                                                         disabled={this.state.inputs.disabled}
                                                                         onChange={(e) => this.onEntryAdd(e)}/>
-                                <Typography>Date and time</Typography><TextField id="datetime-local"
+                                <Typography>Date and time: </Typography><TextField id="datetime-local"
                                                                                  type="datetime-local"
                                                                                  value={this.state.inputs.date}
                                                                                  disabled={this.state.inputs.disabled}
                                                                                  onChange={(e) => this.onDateAdd(e)}/>
-                                <Typography>Cost</Typography><Input type="number" value={this.state.inputs.cost}
+                                <Typography>Cost: </Typography><Input type="number" value={this.state.inputs.cost}
                                                                     disabled={this.state.inputs.disabled}
                                                                     onChange={(e) => this.onCostAdd(e)}/>
-                                <Typography>Address</Typography><Input type="text" value={this.state.inputs.address}
+                                <Typography>Address: </Typography><Input type="text" value={this.state.inputs.address}
                                                                        disabled={this.state.inputs.disabled}
                                                                        onChange={(e) => this.onAddressAdd(e)}/>
-                                <Typography>Category</Typography>
+                                <Typography>Category: </Typography>
                                 <Select className="input-select"
                                         value={this.state.category}
                                         disabled={this.state.inputs.disabled} onChange={(e) => this.onCategoryAdd(e)}>
@@ -415,4 +409,4 @@ class App extends Component {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(App);
+export default App;
