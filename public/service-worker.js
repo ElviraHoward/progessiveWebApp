@@ -1,9 +1,10 @@
+importScripts('bower_components/sw-toolbox/sw-toolbox.js');
 const PRECACHE = "cache-v1";
 const RUNTIME = "runtime";
 const PRECACHE_URLS = [
     ".",
     "index.html",
-    "./App.js",
+    "/App.js",
     "./App.css",
     "./PartyCard.js",
     "./PartyCard.css",
@@ -13,8 +14,7 @@ const PRECACHE_URLS = [
     "./CategoryCard.css",
     "./index.js",
     "./index.css",
-    "./public/icon.png",
-    "./public/react_app.png"
+    "./images"
 ];
 
 self.addEventListener('install', event => {
@@ -55,6 +55,14 @@ self.addEventListener('fetch', event => {
             })
         );
     }
+});
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
 });
 /*
 // Set this to true for production
