@@ -55,6 +55,7 @@
     </p>
   </div>
   <script>
+      let deferredPrompt;
       if ("serviceWorker" in navigator) {
           window.addEventListener("load", function () {
               navigator.serviceWorker.register("/service-worker.js");
@@ -62,6 +63,12 @@
       } else {
           console.log('service worker is not supported');
       }
+      window.addEventListener('beforeinstallprompt', function(event) {
+          console.log('beforeinstallprompt canceled');
+          event.prompt();
+          deferredPrompt = event;
+          return false;
+      });
   </script>
 </div></body>
 </html>
