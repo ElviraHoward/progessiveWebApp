@@ -1,11 +1,15 @@
-import React, {Component} from 'react';
-import './App.css';
+import React, {Component} from "react";
+import "./App.css";
 import _ from "underscore";
+import {translate, Trans} from "react-i18next";
 import {
     AppBar,
     Toolbar,
     Typography,
     Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
     Button,
     IconButton,
     Card,
@@ -13,9 +17,11 @@ import {
     Input,
     Select,
     TextField,
-    Checkbox, MenuItem
-} from 'material-ui';
+    Checkbox,
+    MenuItem
+} from "material-ui";
 import PartyCard from "./PartyCard";
+import {t} from "i18next";
 
 class App extends Component {
 
@@ -24,7 +30,7 @@ class App extends Component {
         let parties = [
             {
                 id: 1,
-                name: 'PARTY 1',
+                name: t('party1'),
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
                 date: '2018-04-25T14:30',
@@ -36,7 +42,7 @@ class App extends Component {
             },
             {
                 id: 2,
-                name: 'PARTY 2',
+                name: t('party2'),
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
                 date: '2018-04-26T16:00',
@@ -48,7 +54,7 @@ class App extends Component {
             },
             {
                 id: 3,
-                name: 'PARTY 3',
+                name: t('party3'),
                 description: 'Lorem ipsum dolor sit amet',
                 entry: true,
                 date: '2018-04-27T23:00',
@@ -320,12 +326,17 @@ class App extends Component {
     }
 
     render() {
+        const { t, i18n } = this.props;
+
+        const changeLanguage = (lng) => {
+            i18n.changeLanguage(lng);
+        };
         return (
             <div>
                 {
                     _.map(this.state.parties,
                         function (party) {
-                            return  <PartyCard party={party} onEditHandler={this.onEditHandler.bind(this)}
+                            return <PartyCard party={party} onEditHandler={this.onEditHandler.bind(this)}
                                               onSaveHandler={this.onSaveHandler.bind(this)}
                                               onDeleteHandler={this.onDeleteHandler.bind(this)}
                                               onDescriptionChange={this.onDescriptionChange.bind(this)}
@@ -343,70 +354,64 @@ class App extends Component {
                                               onCategoryAdd={this.onCategoryAdd.bind(this)}
                                               onEntryAdd={this.onEntryAdd.bind(this)}
                                               categories={this.state.categories}/>
-                                }.bind(this))
+                        }.bind(this))
                 }
                 <div className="fab-add-button">
-                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}>
-                    +
-                </Button>
+                    <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}>
+                        +
+                    </Button>
                 </div>
                 <Dialog
-                    fullScreen={true}
+                    aria-labelledby="form-dialog-title"
+                    maxWidth='xs'
                     open={this.state.isOpen}
                     onClose={() => this.toggleDialog()}>
-                    <AppBar>
-                        <Toolbar>
-                            <IconButton color="inherit" onClick={() => this.toggleDialog()} aria-label="Close">
-                                x
-                            </IconButton>
-                            <Typography variant="title" color="inherit">
-                                Add new party
-                            </Typography>
-                            <Button color="inherit" onClick={() => this.onButtonClick()}>
-                                Save
-                            </Button>
-                        </Toolbar>
-                        <Card>
-                            <CardContent>
-                                <Typography>Name: </Typography><Input className="InputName" type="text"
-                                                                    value={this.state.inputs.name}
-                                                                    disabled={this.state.inputs.disabled}
-                                                                    onChange={(e) => this.onNameAdd(e)}/>
-                                <Typography>Description: </Typography><Input type="text"
-                                                                           value={this.state.inputs.description}
-                                                                           disabled={this.state.inputs.disabled}
-                                                                           onChange={(e) => this.onDescriptionAdd(e)}/>
-                                <Typography>Free entry: </Typography><Checkbox checked={this.state.inputs.entry}
-                                                                        disabled={this.state.inputs.disabled}
-                                                                        onChange={(e) => this.onEntryAdd(e)}/>
-                                <Typography>Date and time: </Typography><TextField id="datetime-local"
-                                                                                 type="datetime-local"
-                                                                                 value={this.state.inputs.date}
-                                                                                 disabled={this.state.inputs.disabled}
-                                                                                 onChange={(e) => this.onDateAdd(e)}/>
-                                <Typography>Cost: </Typography><Input type="number" value={this.state.inputs.cost}
-                                                                    disabled={this.state.inputs.disabled}
-                                                                    onChange={(e) => this.onCostAdd(e)}/>
-                                <Typography>Address: </Typography><Input type="text" value={this.state.inputs.address}
+                    <div className="dialog-bar"><DialogTitle> {t('add_new_party')} </DialogTitle>
+                    <Button color="inherit" onClick={() => this.toggleDialog()}>
+                        x
+                    </Button></div>
+                    <DialogContent>
+                        <Typography>{t('name')}: </Typography><Input className="InputName" type="text"
+                                                              value={this.state.inputs.name}
+                                                              disabled={this.state.inputs.disabled}
+                                                              onChange={(e) => this.onNameAdd(e)}/>
+                        <Typography>{t('description')}: </Typography><Input type="text"
+                                                                     value={this.state.inputs.description}
+                                                                     disabled={this.state.inputs.disabled}
+                                                                     onChange={(e) => this.onDescriptionAdd(e)}/>
+                        <Typography>{t('free_entry')}: </Typography><Checkbox checked={this.state.inputs.entry}
                                                                        disabled={this.state.inputs.disabled}
-                                                                       onChange={(e) => this.onAddressAdd(e)}/>
-                                <Typography>Category: </Typography>
-                                <Select className="input-select"
-                                        value={this.state.category}
-                                        disabled={this.state.inputs.disabled} onChange={(e) => this.onCategoryAdd(e)}>
-                                    {
-                                        _.map(this.state.categories, function (category) {
-                                            return <MenuItem value={category.id}>{category.name}</MenuItem>
-                                        })
-                                    };
-                                </Select>
-                            </CardContent>
-                        </Card>
-                    </AppBar>
+                                                                       onChange={(e) => this.onEntryAdd(e)}/>
+                        <Typography>{t('date_and_time')}: </Typography><TextField id="datetime-local"
+                                                                           type="datetime-local"
+                                                                           value={this.state.inputs.date}
+                                                                           disabled={this.state.inputs.disabled}
+                                                                           onChange={(e) => this.onDateAdd(e)}/>
+                        <Typography>{t('cost')}: </Typography><Input type="number" value={this.state.inputs.cost}
+                                                              disabled={this.state.inputs.disabled}
+                                                              onChange={(e) => this.onCostAdd(e)}/>
+                        <Typography>{t('address')}: </Typography><Input type="text" value={this.state.inputs.address}
+                                                                 disabled={this.state.inputs.disabled}
+                                                                 onChange={(e) => this.onAddressAdd(e)}/>
+                        <Typography>{t('category')}: </Typography>
+                        <Select className="input-select"
+                                value={this.state.category}
+                                disabled={this.state.inputs.disabled} onChange={(e) => this.onCategoryAdd(e)}>
+                            {
+                                _.map(this.state.categories, function (category) {
+                                    return <MenuItem value={category.id}>{category.name}</MenuItem>
+                                })
+                            };
+                        </Select>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="inherit" onClick={() => this.onButtonClick()}>
+                            {t('save')}
+                        </Button></DialogActions>
                 </Dialog>
             </div>
         );
     }
 }
 
-export default App;
+export default translate('translations')(App);

@@ -21,7 +21,10 @@
 .App-intro {
   font-size: large;
 }
-
+.dialog-bar {
+  display: flex;
+  align-items: center;
+}
 .fab-add-button {
   float: right;
   margin: 15px;

@@ -1,11 +1,23 @@
-import React, {Component} from 'react';
-import _ from 'underscore';
+import React, {Component} from "react";
+import _ from "underscore";
 import {
     AppBar,
-    Button, Card, CardContent, Dialog, IconButton, Toolbar, Typography, Input
-} from 'material-ui';
+    Button,
+    Card,
+    CardContent,
+    Dialog,
+    IconButton,
+    Toolbar,
+    Typography,
+    Input,
+    DialogTitle,
+    DialogContent,
+    DialogActions
+} from "material-ui";
+import {t} from "i18next";
+import {translate, Trans} from "react-i18next";
 import CategoryCard from "./CategoryCard";
-import './Category.css';
+import "./Category.css";
 
 class Category extends Component {
 
@@ -98,53 +110,51 @@ class Category extends Component {
                 name: ' ',
                 readOnly: false,
                 disabled: false
-            },categories: categories
+            }, categories: categories
         })
     }
 
-    onButtonClick(){
+    onButtonClick() {
         this.onSaveInputCategoryHandler();
         this.toggleDialog();
     }
 
     render() {
+        const { t, i18n } = this.props;
+
+        const changeLanguage = (lng) => {
+            i18n.changeLanguage(lng);
+        };
         return (<div>
-               <CategoryCard categories={this.state.categories}
-                                     onEditCategoryHandler={this.onEditCategoryHandler.bind(this)}
-                                     onSaveCategoryHandler={this.onSaveCategoryHandler.bind(this)}
-                                     onDeleteCategoryHandler={this.onDeleteCategoryHandler.bind(this)}
-                                     onNameCategoryChange={this.onNameCategoryChange.bind(this)} />
+                <CategoryCard categories={this.state.categories}
+                              onEditCategoryHandler={this.onEditCategoryHandler.bind(this)}
+                              onSaveCategoryHandler={this.onSaveCategoryHandler.bind(this)}
+                              onDeleteCategoryHandler={this.onDeleteCategoryHandler.bind(this)}
+                              onNameCategoryChange={this.onNameCategoryChange.bind(this)}/>
                 <div className="fab-add-button">
-                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}> +
-                </Button>
+                    <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}> +
+                    </Button>
                 </div>
                 <Dialog
-                    fullScreen={true}
                     open={this.state.isOpen}
                     onClose={() => this.toggleDialog()}>
-                    <AppBar>
-                        <Toolbar>
-                            <IconButton color="inherit" onClick={() => this.toggleDialog()} aria-label="Close">
-                                x
-                            </IconButton>
-                            <Typography variant="title" color="inherit">
-                                Add new category
-                            </Typography>
-                            <Button color="inherit" onClick={() => this.onButtonClick()}>
-                                Save
-                            </Button>
-                        </Toolbar>
-                        <Card>
-                            <CardContent>
-                                <Typography>Name</Typography><Input className="InputName" type="text" value={this.state.inputs.name}
-                                                                    disabled={this.state.inputs.disabled} onChange={(e) => this.onNameCategoryAdd(e)}/>
-                            </CardContent>
-                        </Card>
-                    </AppBar>
+                    <div className="dialog-bar"> <DialogTitle> {t('add_new_category')} </DialogTitle>
+                    <Button color="inherit" onClick={() => this.toggleDialog()}>
+                        x
+                    </Button></div>
+                    <DialogContent>
+                    <Typography>{t('name')}</Typography><Input className="InputName" type="text" value={this.state.inputs.name}
+                                                        disabled={this.state.inputs.disabled}
+                                                        onChange={(e) => this.onNameCategoryAdd(e)}/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="inherit" onClick={() => this.onButtonClick()}>
+                            {t('save')}
+                        </Button></DialogActions>
                 </Dialog>
             </div>
         );
     }
 }
 
-export default Category;
+export default translate('translations')(Category);
