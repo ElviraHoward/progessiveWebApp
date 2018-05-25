@@ -1,10 +1,8 @@
 import React, {Component} from "react";
 import _ from "underscore";
+import { Close, Add } from '@material-ui/icons';
 import {
-    AppBar,
     Button,
-    Card,
-    CardContent,
     Dialog,
     IconButton,
     Toolbar,
@@ -121,10 +119,6 @@ class Category extends Component {
 
     render() {
         const { t, i18n } = this.props;
-
-        const changeLanguage = (lng) => {
-            i18n.changeLanguage(lng);
-        };
         return (<div>
                 <CategoryCard categories={this.state.categories}
                               onEditCategoryHandler={this.onEditCategoryHandler.bind(this)}
@@ -132,16 +126,16 @@ class Category extends Component {
                               onDeleteCategoryHandler={this.onDeleteCategoryHandler.bind(this)}
                               onNameCategoryChange={this.onNameCategoryChange.bind(this)}/>
                 <div className="fab-add-button">
-                    <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}> +
+                    <Button variant="fab" color="primary" aria-label="add" onClick={() => this.toggleDialog()}>
+                        +
                     </Button>
                 </div>
                 <Dialog
                     open={this.state.isOpen}
                     onClose={() => this.toggleDialog()}>
-                    <div className="dialog-bar"> <DialogTitle> {t('add_new_category')} </DialogTitle>
-                    <Button color="inherit" onClick={() => this.toggleDialog()}>
-                        x
-                    </Button></div>
+                    <div className="dialog-bar"> <DialogTitle className="dialog-title"> {t('add_new_category')} </DialogTitle>
+                    <IconButton color="inherit" onClick={() => this.toggleDialog()}>
+                    </IconButton></div>
                     <DialogContent>
                     <Typography>{t('name')}</Typography><Input className="InputName" type="text" value={this.state.inputs.name}
                                                         disabled={this.state.inputs.disabled}

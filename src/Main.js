@@ -12,24 +12,21 @@ class Main extends Component {
             {
                 id: 1,
                 name: t('concert'),
+                pic: require('./synthesizer.svg'),
                 readOnly: true,
                 disabled: true
             },
             {
                 id: 2,
                 name: t('in_house'),
+                pic: require('./confetti.svg'),
                 readOnly: true,
                 disabled: true
             },
             {
                 id: 3,
                 name: t('club'),
-                readOnly: true,
-                disabled: true
-            },
-            {
-                id: 4,
-                name: t('bla_bla'),
+                pic: require('./disco.svg'),
                 readOnly: true,
                 disabled: true
             }
@@ -38,10 +35,6 @@ class Main extends Component {
 
     render() {
         const {t, i18n} = this.props;
-
-        const changeLanguage = (lng) => {
-            i18n.changeLanguage(lng);
-        };
         return (
             <HashRouter>
                 <Switch>

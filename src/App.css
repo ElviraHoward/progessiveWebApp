@@ -75,6 +75,13 @@
 }
 
 @media (max-width: 320px) {
+  .dialog-bar {
+    display: flex;
+    align-items: center;
+  }
+  .dialog-title {
+    width: 60%;
+  }
   .parties-card-content {
     display: flex;
     justify-content: center;

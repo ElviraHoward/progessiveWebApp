@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import "./App.css";
 import _ from "underscore";
 import {translate, Trans} from "react-i18next";
+import { Close, Add} from '@material-ui/icons';
+
 import {
     AppBar,
     Toolbar,
@@ -366,10 +368,10 @@ class App extends Component {
                     maxWidth='xs'
                     open={this.state.isOpen}
                     onClose={() => this.toggleDialog()}>
-                    <div className="dialog-bar"><DialogTitle> {t('add_new_party')} </DialogTitle>
-                    <Button color="inherit" onClick={() => this.toggleDialog()}>
+                    <div className="dialog-bar"><DialogTitle className="dialog-title"> {t('add_new_party')} </DialogTitle>
+                    <IconButton color="inherit" onClick={() => this.toggleDialog()}>
                         x
-                    </Button></div>
+                    </IconButton></div>
                     <DialogContent>
                         <Typography>{t('name')}: </Typography><Input className="InputName" type="text"
                                                               value={this.state.inputs.name}

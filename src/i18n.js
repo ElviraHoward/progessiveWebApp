@@ -32,7 +32,7 @@ i18n
             },
             ru: {
                 translations: {
-                    "personal_parties": "Персональные вечеринки",
+                    "personal_parties": "Мои вечеринки",
                     "categories": "Категории",
                     "party1": "ВЕЧЕРИНКА 1",
                     "party2": "ВЕЧЕРИНКА 2",

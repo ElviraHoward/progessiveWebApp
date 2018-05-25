@@ -25,6 +25,7 @@
     "react-router": "^3.2.1",
     "react-router-dom": "latest",
     "react-scripts": "1.1.4",
+    "react-sticky-footer": "0.1.0-rc3",
     "react-swipeable-tabs": "^2.2.0",
     "sw-toolbox": "^3.6.0",
     "underscore": "^1.9.0"
